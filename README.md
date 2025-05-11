@@ -24,9 +24,8 @@ Blue Team (Defensive) Objective: Implement a known mitigation method for CVE-202
 
 #### Meeting Briefing
 ![image](https://github.com/user-attachments/assets/89045430-38dd-4785-8604-a56b732ae83e)
+![image](https://github.com/user-attachments/assets/05f7cc73-af90-402e-8e1f-98108c39dd47)
 
-
-![[Pasted image 20250510175131.png]]
 
 `Doc Scurlock` Hello @playerone, welcome to the mission briefing for the CVE‐2021‐35464 "ForgeRock OpenAM Backstage Pass" Threat Sandbox. During this mission, you will be providing ethical hacking services, similar to penetration testing and security remediation, to a fictional technology company within the information technology (IT) critical infrastructure (CI) sector.
 
@@ -83,33 +82,40 @@ In applications that deserialize user-input without proper validation an attacke
 
 My first action was to run a nmap scan against the target machine @ 172.16.100.90. I decided that since this is a test environment i'd go the fast and hard route. 
 
-![[Pasted image 20250510194141.png]]
+![image](https://github.com/user-attachments/assets/fb3a7fa9-517d-4c5c-a3eb-9deb8175f369)
+
 
 This confirmed that the target has Apache Tomcat 8.5.68 running on port 80. 
 
 The challenge has provided that we are seeking to exploit CVE-2021-35464. As such, I opened the metasploit console and used the CVE search to find modules particular to this vulnerability. 
 
-![[Pasted image 20250510194457.png]]
+![image](https://github.com/user-attachments/assets/10fd7c5e-a368-4ae9-b393-b9db2c47bed2)
+
 
 Any time I load a tool I check options to ensure that I have entered all required fields for the tool/module to function properly. The values that I need to set for this particular module are RHOST (remote host) 172.16.100.90, RPORT (remote port) 80, and LHOST (local host) 172.16.200.12. 
 
-![[Pasted image 20250510194731.png]]
+![image](https://github.com/user-attachments/assets/563d97fe-bdb1-4077-bb5f-68bbd4f7e842)
 
-![[Pasted image 20250510195001.png]]
+
+![image](https://github.com/user-attachments/assets/ff7a1480-6f82-48aa-8900-cdd3db9e0f32)
+
 
 afterwards I do like to run "show options" once more for the sake of measuring twice and cutting once but i'll spare the screenshot
 
 after the necessary fields have been confirmed we pass 'exploit' and like magic we have a meterpreter session. 
 
-![[Pasted image 20250510195424.png]]
+![image](https://github.com/user-attachments/assets/af6e6144-861d-4a51-9399-ef9e3a547c19)
+
 
 From here we can upload our deploy_c2 ELF binary and check that the upload was successful (i'll double check despite metasploit telling us it was)
 
-![[Pasted image 20250510195943.png]]
+![image](https://github.com/user-attachments/assets/7f020f8d-0bae-4a16-84ff-4b0db9284093)
+
 
 Last step of this red team exercise is to pop into a shell from our meterpreter session and execute the deploy_c2 binary. passing pwd first would have been more efficient so next time i'll be saving myself a step there
 
-![[Pasted image 20250510200954.png]]
+![image](https://github.com/user-attachments/assets/5d4eb194-619f-4015-89e1-8db0aabc9476)
+
 
 
 #### Blue team exercise
@@ -118,13 +124,15 @@ For our blue team exercise we are tasked with implementing the vendor-provided m
 
 To do so i've first ssh'd into the machine using the given credentials for a privileged account
 
-![[Pasted image 20250510202131.png]]
+![image](https://github.com/user-attachments/assets/0d633231-537b-4abe-a55f-ac0643e23818)
+
 
 Per the vendor, mitigation can be achieved by making an edit to comment out the VersionServlet/ccversion portion of _/path/to/tomcat/webapps/openam/WEB-INF/web.xml_
 
 I edited the file with nano and commented it out with the proper '<!-- -->' for xml.
 
-![[Pasted image 20250510212023.png]]
+![image](https://github.com/user-attachments/assets/c9e167c7-732c-4989-aeda-d8f60a6caf1e)
+
 
 It seems like the characters are malformed given the Unicode long dash and ^M characters when opening in vim to denote a windows-style CRLF but apparently this is sufficient for this challenge. 
 
