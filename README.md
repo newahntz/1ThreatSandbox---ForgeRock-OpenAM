@@ -23,7 +23,8 @@ Red Team (Offensive) Objective: Utilize CVE-2021-35464 to deploy command and con
 Blue Team (Defensive) Objective: Implement a known mitigation method for CVE-2021-35464 to safeguard a server running a vulnerable OpenAM instance used by an information technology (IT) business (i.e., the blue target system).  
 
 #### Meeting Briefing
-![image]([https://github.com/user-attachments/assets/ef361b21-c692-4abb-ab0e-273c45111f33](https://github.com/newahntz/1ThreatSandbox---ForgeRock-OpenAM/blob/main/images/Pasted%20image%2020250510175109.png))
+![image](https://github.com/user-attachments/assets/89045430-38dd-4785-8604-a56b732ae83e)
+
 
 ![[Pasted image 20250510175131.png]]
 
